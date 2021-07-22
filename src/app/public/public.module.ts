@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import {MatRippleModule} from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,6 +20,7 @@ import { EncuestaComponent } from './encuesta/encuesta.component';
 import { RegistroComponent } from './registro/registro.component';
 import { publicRoutes } from './public.routing';
 import { PublicComponent } from './public.component';
+import { ModalPasswordComponent } from './modal-password/modal-password.component';
 
 
 @NgModule({
@@ -26,7 +28,8 @@ import { PublicComponent } from './public.component';
         PublicComponent,
         LoginComponent,
         RegistroComponent,
-        EncuestaComponent
+        EncuestaComponent,
+        ModalPasswordComponent
     ],
     imports: [
         RouterModule.forChild(publicRoutes),
@@ -38,6 +41,7 @@ import { PublicComponent } from './public.component';
         MatRippleModule,
         RouterModule,
         MatToolbarModule,
+        MatDialogModule,
         MatTooltipModule,
         MatFormFieldModule,
         MatIconModule,

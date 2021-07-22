@@ -51,6 +51,10 @@ export class AuthService {
   }
 
   setUserData(userData): void {
+
+    // Pendiente, tipo de usuario quemado, traer desde la base de datos.
+    userData.tipo_usuario = 1;
+
     localStorage.setItem('userData', JSON.stringify(userData))
   }
 
@@ -78,6 +82,18 @@ export class AuthService {
               if (!response.errors) {
                 this.setUserData(response)
               }
+              resolve(response);
+          }, reject);
+  });
+
+  }
+
+  restorePassword(form): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this._httpClient.post(`${this.urlLocal}user/restore_pendiente`, form)
+          .subscribe((response: any) => {
+        
               resolve(response);
           }, reject);
   });

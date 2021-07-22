@@ -5,12 +5,12 @@
               <div class="card">
                   <div class="row card-header card-header-custom">
                       <div>
-                        <h4 class="card-title">Respuestas</h4>
-                        <p class="card-category">Listado de respuestas en el formulario</p>
+                        <h4 class="card-title ">Usuarios</h4>
+                        <p class="card-category"> Gestion de Usuarios</p>
                       </div>
 
                       <div>
-                        <button mat-raised-button [routerLink]="'/public/encuesta'" color="warn">Crear</button>
+                        <button mat-raised-button (click)="openModal('crear')" color="primary">Crear</button>
                       </div>
                       
                   </div>
@@ -19,57 +19,40 @@
                           <table class="table">
                               <thead class=" text-primary">
                                     <th>
-                                       #
-                                    </th>
-                              
-                                    <th [matTooltip]="'¿Te gustaría ser parte de una comunidad de mujeres en STEM en el Ecuador?'">
-                                        Pregunta 6
-                                  </th>
-                                    <th>
-                                        Email
+                                        Nombre
                                     </th>
                                     <th>
-                                        Ciudad
+                                        Correo
                                     </th>
                                     <th>
-                                      Fecha registro
+                                        Fecha creación
                                     </th>
-                
                                     <th>
                                     </th>
                               </thead>
                               <tbody>
-                                  <tr *ngFor="let registro of encuestas; let i = index">
+                                  <tr *ngFor="let user of usuarios">
                                       <td>
-                                          {{i + 1}}
-                                      </td>
-                                     
-                                      <td>
-                                        {{registro.pregunta6}}
+                                          {{user.nombre}}
                                       </td>
                                       <td>
-                                        {{registro.pregunta8}}
+                                        {{user.email}}
                                       </td>
                                       <td>
-                                        {{registro.pregunta9}}
+                                        {{user.created_at | date:'dd/MM/yyyy, h:mm a' }}
                                       </td>
 
-                                      <td>
-                                        {{registro.created_at | date:'dd-MM-yyyy - h:mm a'}}
-                                      </td>
-                                     
                                       <td>
                                         <button [matMenuTriggerFor]="menu" mat-icon-button color='primary'>
                                             <mat-icon>more_vert</mat-icon>
                                         </button>
                                         <mat-menu #menu="matMenu">
+                                            <button (click)="openModal('editar', user)" mat-menu-item>
+                                                <mat-icon>edit</mat-icon>
+                                                <span>Editar</span>
+                                              </button>
 
-                                            <button (click)="openModal(registro)" mat-menu-item>
-                                              <mat-icon>visibility</mat-icon>
-                                              <span>Ver todo</span>
-                                            </button>
-
-                                              <button (click)="eliminarEncuesta(registro)" mat-menu-item>
+                                              <button (click)="eliminarPaciente(user)" mat-menu-item>
                                                 <mat-icon>delete</mat-icon>
                                                 <span>Eliminar</span>
                                               </button>

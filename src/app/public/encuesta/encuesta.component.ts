@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'app/auth/aut.service';
+import { CommonService } from 'app/services/common-service';
 import { Router } from '@angular/router';
 declare var $: any;
 
@@ -110,22 +111,22 @@ export class EncuestaComponent implements OnInit {
     encuestaForm: FormGroup;
     type = ['','info','success','warning','danger'];
 
-  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router ) { }
+  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _commonService: CommonService, private _router: Router ) { }
 
     ngOnInit() {
 
         this.isLogged = this._authService.isLogged();
 
         this.encuestaForm = this._formBuilder.group({
-            pregunta_1: [null, [Validators.required]],
-            pregunta_2: [null],
-            pregunta_3: [null],
-            pregunta_4: [null],
-            pregunta_5: [null],
-            pregunta_6: [null, [Validators.required]],
-            pregunta_7: [null, [Validators.required]],
-            pregunta_8: [null, [Validators.email]],
-            pregunta_9: [null, [Validators.required]],
+            pregunta1: [[], [Validators.required]],
+            pregunta2: [[]],
+            pregunta3: [[]],
+            pregunta4: [null],
+            pregunta5: [[]],
+            pregunta6: [null, [Validators.required]],
+            pregunta7: [[], [Validators.required]],
+            pregunta8: [null, [Validators.email]],
+            pregunta9: [null, [Validators.required]],
         })
     }
 
@@ -139,31 +140,14 @@ export class EncuestaComponent implements OnInit {
     onSubmitForm(form): void {
 
       
-        const data = form;
-
-
-        if (data.pregunta_2 && data.pregunta_2.length === 0) {
-            data.pregunta_2 === null;
-        }
-
-        if (data.pregunta_3 && data.pregunta_3.length === 0) {
-            data.pregunta_3 === null;
-        }
-
-        if (data.pregunta_5 && data.pregunta_5.length === 0) {
-            data.pregunta_5 === null;
-        }
-
-        return
-
-        data.password = window.btoa(form.email + ':' + form.password);
-        
+    
         this.loading = true;
-        this._authService.logear(data).then((res) => {
-            if (res.logeado) {
-                this._router.navigate(['/app/dashboard'])
+        this._commonService.postEncuesta(form).then((res) => {
+            if (!res.errors) {
+                this.showNotification('success', 'Registro creado');
+                this.resetForm();
             }else {
-                this.showNotification('danger', 'El email o la contraseña no son validos')
+                this.showNotification('danger', 'Hubo un fallo al guardar');
             }
             this.loading = false;
         });

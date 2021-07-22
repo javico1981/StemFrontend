@@ -5,13 +5,37 @@ import { CommonService } from 'app/services/common-service';
 
 
 @Injectable({ providedIn: 'root' })
-export class CommonResolver implements Resolve<any> {
+export class EncuestasResolver implements Resolve<any> {
   constructor(private service: CommonService) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<any>|Promise<any>|any {
-    return this.service.getPacientes();
+    return this.service.getEncuestas();
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class DashboardResolver implements Resolve<any> {
+  constructor(private service: CommonService) {}
+
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<any>|Promise<any>|any {
+    return this.service.getDashboard();
+  }
+}
+
+@Injectable({ providedIn: 'root' })
+export class UsuariosResolver implements Resolve<any> {
+  constructor(private service: CommonService) {}
+
+  resolve(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<any>|Promise<any>|any {
+    return this.service.getUsuarios();
   }
 }

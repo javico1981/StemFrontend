@@ -1,124 +1,195 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-3 col-md-6 col-sm-6">
+      <div class="col-md-6">
         <div class="card card-stats">
           <div class="card-header card-header-warning card-header-icon">
             <div class="card-icon">
-              <i class="material-icons">coronavirus</i>
+              <i class="material-icons">format_list_numbered</i>
             </div>
-            <p class="card-category">Pacientes</p>
+            <p class="card-category">Registros</p>
           </div>
           <div class="card-body">
-            <h4 class="card-title">Total: {{ pacientes.length }}</h4>
-          </div>
-        </div>
-      </div>
-      <div class="col-lg-3 col-md-6 col-sm-6">
-        <div class="card card-stats">
-          <div class="card-header card-header-danger card-header-icon">
-            <div class="card-icon">
-              <i class="material-icons">access_time</i>
-            </div>
-            <p class="card-category">Contagio mas reciente</p>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">
-              {{
-                pacientes[contagioRecienteIndex]?.fecha_contagio
-                  | date: "dd/MM/yyyy"
-              }}
-            </h4>
+            <h4 class="card-title">Total: {{ encuestas.length }}</h4>
           </div>
         </div>
       </div>
     </div>
+    
     <div class="row">
-      <div class="col-md-6">
-        <div class="card card-chart">
-          <div class="card-header card-header-success">
-            <div class="ct-chart" id="dailySalesChart"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Por mes</h4>
-         
-            <p *ngFor="let mes of labelsPorMes; index as i" class="card-category">
-              {{seriesPorMes[i]}} {{mes}}
-              <span class="text-success"
-                >{{ seriesPorMes[i] / pacientes.length * 100 | number: "2.0-1" }}%
-              </span>
-            </p>
-            
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="card card-chart">
-          <div class="card-header card-header-warning">
-            <div class="ct-chart" id="websiteViewsChart"></div>
-          </div>
-          <div class="card-body">
-            <h4 class="card-title">Por genero</h4>
-            <p class="card-category">
-              
-              {{porcentajeHombresCantidad}} Hombres
-              <span class="text-warning"
-                >{{ porcentajeHombres | number: "2.0-1" }}%
-              </span>
-            </p>
-            <p class="card-category">
 
-              {{porcentajeMujeresCantidad}}
-              Mujeres
-              <span class="text-warning"
-              >{{ porcentajeMujeres | number: "2.0-1" }}%
-            </span>
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
       <div class="col">
         <div class="card card-chart">
           <div class="card-header card-header-danger">
-            <div class="ct-chart" id="nivelEducativoChart"></div>
+            <div class="ct-chart" id="pregunta1Chart"></div>
           </div>
           <div class="card-body">
-            <h4 class="card-title">Por nivel educativo</h4>
-            <p class="card-category">
-              {{porcentajePrimariaCantidad}} Primaria
-              <span class="text-danger"
-                >{{ porcentajePrimaria | number: "2.0-1" }}%
+            <h4 class="card-title">Pregunta 1</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta1.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-danger">
+                Cantidad: {{dashboard.pregunta1.series[i]}} - {{dashboard.pregunta1.porcentaje[i] | number:'2.0-2'}}%
               </span>
                 
-            </p>
-            <p class="card-category">
-
-              {{porcentajeBachillerCantidad}} Bachiller
-                <span class="text-danger"
-                  >{{ porcentajeBachiller | number: "2.0-1" }}%
-                </span>
-                
-            </p>
-            <p class="card-category">
-              {{porcentajeUniversitarioCantidad}} Universitario
-                <span class="text-danger"
-                  >{{ porcentajeUniversitario | number: "2.0-1" }}%
-                </span>
-               
-            </p>
-            <p class="card-category">
-              {{porcentajeOtroCantidad}} Otros
-                <span class="text-danger"
-                  >{{ porcentajeOtro | number: "2.0-1" }}%
-                </span>
-               
             </p>
           </div>
         </div>
       </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-primary">
+            <div class="ct-chart" id="pregunta2Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 2</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta2.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-primary">
+                Cantidad: {{dashboard.pregunta2.series[i]}} - {{dashboard.pregunta2.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-warning">
+            <div class="ct-chart" id="pregunta3Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 3</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta3.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-warning">
+                Cantidad: {{dashboard.pregunta3.series[i]}} - {{dashboard.pregunta3.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-success">
+            <div class="ct-chart" id="pregunta4Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 4</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta4.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-success">
+                Cantidad: {{dashboard.pregunta4.series[i]}} - {{dashboard.pregunta4.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-info">
+            <div class="ct-chart" id="pregunta5Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 5</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta5.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-info">
+                Cantidad: {{dashboard.pregunta5.series[i]}} - {{dashboard.pregunta5.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-rose">
+            <div class="ct-chart" id="pregunta6Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 6</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta6.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-rose">
+                Cantidad: {{dashboard.pregunta6.series[i]}} - {{dashboard.pregunta6.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-success">
+            <div class="ct-chart" id="pregunta7Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 7</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta7.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-success">
+                Cantidad: {{dashboard.pregunta7.series[i]}} - {{dashboard.pregunta7.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
+      <div class="col">
+        <div class="card card-chart">
+          <div class="card-header card-header-primary">
+            <div class="ct-chart" id="pregunta9Chart"></div>
+          </div>
+          <div class="card-body">
+            <h4 class="card-title">Pregunta 9</h4>
+            <p class="card-category" *ngFor="let item of dashboard.pregunta9.labels; let i = index">
+              Opción {{i + 1}} - {{item }}  
+              <span class="text-primary">
+                Cantidad: {{dashboard.pregunta9.series[i]}} - {{dashboard.pregunta9.porcentaje[i] | number:'2.0-2'}}%
+              </span>
+                
+            </p>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>

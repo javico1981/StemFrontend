@@ -8,11 +8,12 @@ declare interface RouteInfo {
     icon: string;
     class: string;
 }
-export const ROUTES: RouteInfo[] = [
+export const rutas: RouteInfo[] = [
     { path: '/app/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
-    { path: '/app/user-profile', title: 'Usuario',  icon:'person', class: '' },
+    { path: '/app/user-profile', title: 'Mi Usuario',  icon:'person', class: '' },
     { path: '/app/table-list', title: 'Respuestas',  icon:'content_paste', class: '' },
 ];
+
 
 @Component({
   selector: 'app-sidebar',
@@ -21,11 +22,21 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent implements OnInit {
   menuItems: any[];
-
+  userData: any;
   constructor(private _authService: AuthService) { }
 
   ngOnInit() {
-    this.menuItems = ROUTES.filter(menuItem => menuItem);
+
+    this.userData = this._authService.getUserData();
+
+    if (this.userData.tipo_usuario === 1) {
+
+      let ruta_admin = { path: '/app/user-list', title: 'Gestion usuarios',  icon:'manage_accounts', class: '' }
+
+      rutas.push(ruta_admin)
+    }
+
+    this.menuItems = rutas.filter(menuItem => menuItem);
   }
   isMobileMenu() {
       if ($(window).width() > 991) {

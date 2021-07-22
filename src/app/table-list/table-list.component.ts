@@ -1,12 +1,11 @@
 import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonService } from 'app/services/common-service';
-import { Paciente } from './model/paciente.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ModalFormComponent } from './modal-form/modal-form.component';
+import { Encuesta } from './model/encuesta.model';
 import { Observable, Subject } from 'rxjs';
-import { AuthService } from 'app/auth/aut.service';
 import { takeUntil } from 'rxjs/operators';
-import * as moment from 'moment';
+import { ModalDetalleComponent } from './modal-detalle/modal-detalle.component';
+
 declare var $: any;
 
 @Component({
@@ -17,100 +16,42 @@ declare var $: any;
 export class TableListComponent implements OnInit, OnDestroy {
 
   userData: any;
-  pacientes$: Observable<Paciente[]>;
+  encuestas$: Observable<Encuesta[]>;
   type = ['','info','success','warning','danger'];
-  pacientes: Paciente[];
+  encuestas: Encuesta[];
   private _unsubscribeAll: Subject<any> = new Subject<any>();
-  constructor(private _commonService: CommonService, private _matDialog: MatDialog, private _changeDetectorRef: ChangeDetectorRef, private _authService: AuthService) {
+  constructor(private _commonService: CommonService, private _changeDetectorRef: ChangeDetectorRef, private _dialog: MatDialog) {
   }
 
   ngOnInit() {
 
-    this.userData = this._authService.getUserData();
-
-    this.pacientes$ = this._commonService.pacientes$;
-    this._commonService.pacientes$
+    this.encuestas$ = this._commonService.encuestas$;
+    this._commonService.encuestas$
         .pipe(takeUntil(this._unsubscribeAll))
-        .subscribe((pacientes: Paciente[]) => {
+        .subscribe((encuestas: Encuesta[]) => {
             // Update the counts
-            this.pacientes = pacientes;
-
+            this.encuestas = encuestas;
             this._changeDetectorRef.markForCheck();
         });
   }
 
 
-  openModal(tipo: 'editar' | 'crear', paciente?: Paciente): void {
+  openModal(registro): void {
 
-      let informacion = {
-        tipo: tipo,
-        paciente: paciente
-      }
-
-      const dialogRef = this._matDialog.open(ModalFormComponent, {
-        data: informacion
-    });
-
-    dialogRef.afterClosed()
-    .subscribe(result => {
-      console.log('lo que retorna el modal', result);
-
-      if (result) {
-          tipo === 'editar' ? this.editarPaciente(result):  this.crearPaciente(result)
-      }
+    const dialogRef = this._dialog.open(ModalDetalleComponent, {
+      data: registro
     });
 
   }
 
+  eliminarEncuesta(paciente): void {
 
   
-
-  crearPaciente(paciente): void {
-
-    const data = paciente;
-    data.fecha_contagio = moment(paciente.fecha_contagio).format('YYYY-MM-DD');
-    data.created_by = this.userData.id;
-
-    this._commonService.postPaciente(data).then((res) => {
+    this._commonService.deleteEncuesta(paciente.id).then((res) => {
 
       if (!res.errors) {
-        this._commonService.getPacientes().subscribe();
-        this.showNotification('success', 'Paciente creado')
-      }else {
-        this.showNotification('danger', 'Hubo un fallo al guardar')
-      }
-    })
-
-    
-  }
-
-  editarPaciente(paciente): void {
-
-    const data = paciente;
-    data.fecha_contagio = moment(paciente.fecha_contagio).format('YYYY-MM-DD');
-    data.updated_by = this.userData.id;
-
-    this._commonService.putPaciente(data).then((res) => {
-
-      if (!res.errors) {
-        this._commonService.getPacientes().subscribe();
-        this.showNotification('success', 'Paciente editado')
-      }else {
-        this.showNotification('danger', 'Hubo un fallo al guardar')
-      }
-
-    })
-
-  }
-
-  eliminarPaciente(paciente): void {
-
-  
-    this._commonService.deletePaciente(paciente.id).then((res) => {
-
-      if (!res.errors) {
-        this._commonService.getPacientes().subscribe();
-        this.showNotification('success', 'Paciente eliminado')
+        this._commonService.getEncuestas().subscribe();
+        this.showNotification('success', 'Registro eliminado')
       }else {
         this.showNotification('danger', 'Hubo un fallo al guardar')
       }

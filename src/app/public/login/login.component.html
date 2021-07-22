@@ -3,15 +3,15 @@
         <div class="row">
             <div class="col-md-6 offset-md-3 text-center pt-2">
                 <h4>Ingreso a dashboard de la encuesta</h4>
-                <h3>STEM</h3>
+                <h3>LOGIN STEM</h3>
             </div>
 
         </div>
         <div class="row">
             <div class="col-md-6 offset-md-3">
                 <div class="card">
-                    <div class="card-header card-header-danger card-header-custom">
-                        <h4 class="card-title">Login</h4>
+                    <div class="card-header card-header-custom">
+                        <img class="logoUniversidad" src="/assets/img/logoUniversidad.jpeg"/>
                         <button [routerLink]="'public/encuesta'" mat-icon-button [matTooltip]="'Ir a encuesta'">
                             <mat-icon>content_paste</mat-icon>
                         </button>
@@ -57,26 +57,37 @@
                             </div>
 
                             <div class="row button-container">
+                               
+
+                             
+                                <button  mat-raised-button color="primary" [disabled]="loginForm.invalid || loading" (click)="onSubmitForm(loginForm.value)">
+                                    <span *ngIf="!loading">
+                                        Ingresar
+                                    </span>
+                                    <mat-progress-spinner
+                                    *ngIf="loading"
+                                    class="mx-auto my-2"
+                                    strokeWidth="4"
+                                    [diameter]="24"
+                                    [mode]="'indeterminate'"></mat-progress-spinner>
+                                </button>
+
+                                
+                               
+
+                            </div>
+
+                            <div class="row button-container2">
+
                                 <div class="row registro-container">
-                                    <span>¿Aún no tienes cuenta?</span>
+                                    <span class="mr-1">¿Aún no tienes cuenta?</span>
                                     <a mat-flat-button [routerLink]="'/public/registro'">Registrate</a>
                                 </div>
 
-                                <div>
-                                    <button  mat-raised-button color="primary" [disabled]="loginForm.invalid || loading" (click)="onSubmitForm(loginForm.value)">
-                                        <span *ngIf="!loading">
-                                            Ingresar
-                                        </span>
-                                        <mat-progress-spinner
-                                        *ngIf="loading"
-                                        class="mx-auto my-2"
-                                        strokeWidth="4"
-                                        [diameter]="24"
-                                        [mode]="'indeterminate'"></mat-progress-spinner>
-                                    </button>
-
+                                <div class="row registro-container">
+                                    <span class="mr-1">¿Olvidaste tu contraseña?</span>
+                                    <a mat-flat-button (click)="openModal()">Recuperar</a>
                                 </div>
-                               
 
                             </div>
                             

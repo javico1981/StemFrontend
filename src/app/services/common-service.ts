@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { Paciente } from 'app/table-list/model/paciente.model';
+import { Encuesta } from 'app/table-list/model/encuesta.model';
+import { User } from 'app/user-list/model/user.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 
 @Injectable({
@@ -14,32 +14,90 @@ export class CommonService {
 
   urlLocal= '/api/'
 
-  private _pacientes: BehaviorSubject<Paciente[] | null> = new BehaviorSubject(null);
+  private _encuestas: BehaviorSubject<Encuesta[] | null> = new BehaviorSubject(null);
+  private _dashboard: BehaviorSubject<any | null> = new BehaviorSubject(null);
+  private _usuarios: BehaviorSubject<User[] | null> = new BehaviorSubject(null);
 
-  constructor(private _router: Router, private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient) { }
 
 
-  get pacientes$(): Observable<Paciente[]>
+    get usuarios$(): Observable<User[]>
      {
-         return this._pacientes.asObservable();
+         return this._usuarios.asObservable();
      }
 
-  getPacientes():  Observable<Paciente[]> {
+    get encuestas$(): Observable<Encuesta[]>
+    {
+        return this._encuestas.asObservable();
+    }
 
-    return  this._httpClient.get<Paciente[]>(`${this.urlLocal}paciente`).pipe(
-      tap((pacientes) => {
-          this._pacientes.next(pacientes);
+
+
+    get dashboard$(): Observable<any>
+    {
+        return this._dashboard.asObservable();
+    }
+
+  
+
+  getEncuestas():  Observable<Encuesta[]> {
+
+    return  this._httpClient.get<Encuesta[]>(`${this.urlLocal}encuesta`).pipe(
+      tap((encuestas) => {
+          this._encuestas.next(encuestas);
       })
-  );
-         
-   
+      );
+
   }
 
-  postPaciente(form): Promise<any>
+  getUsuarios():  Observable<User[]> {
+
+    return  this._httpClient.get<User[]>(`${this.urlLocal}user`).pipe(
+      tap((usuarios) => {
+          this._usuarios.next(usuarios);
+      })
+    );
+
+  }
+
+  putUsuario(form): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+      this._httpClient.put(`${this.urlLocal}user/${form.id}`, form)
+          .subscribe((response: any) => {
+              resolve(response);
+          }, reject);
+    });
+
+  }
+
+  postUsuario(form): Promise<any> {
+
+    return new Promise((resolve, reject) => {
+        this._httpClient.post(`${this.urlLocal}user/register`, form)
+            .subscribe((response: any) => {
+                resolve(response);
+            }, reject);
+    });
+
+  }
+
+  deleteUsuario(id): Promise<any>
+    {
+     
+        return new Promise((resolve, reject) => {
+            this._httpClient.delete(`${this.urlLocal}user/${id}`)
+                .subscribe((response: any) => { 
+                    resolve(response);
+                }, reject);
+      });  
+  }
+
+  postEncuesta(form): Promise<any>
     {
 
       return new Promise((resolve, reject) => {
-          this._httpClient.post(`${this.urlLocal}paciente`, form)
+          this._httpClient.post(`${this.urlLocal}encuesta`, form)
               .subscribe((response: any) => {
                 
                   resolve(response);
@@ -48,27 +106,24 @@ export class CommonService {
 
     }
 
-  putPaciente(form): Promise<any>
-    {
-  
-        return new Promise((resolve, reject) => {
-            this._httpClient.put(`${this.urlLocal}paciente/${form.id}`, form)
-                .subscribe((response: any) => { 
-                    resolve(response);
-                }, reject);
-        });
-
-    }
-
-
-    deletePaciente(id): Promise<any>
+    deleteEncuesta(id): Promise<any>
     {
      
         return new Promise((resolve, reject) => {
-            this._httpClient.delete(`${this.urlLocal}paciente/${id}`)
+            this._httpClient.delete(`${this.urlLocal}encuesta/${id}`)
                 .subscribe((response: any) => { 
                     resolve(response);
                 }, reject);
       });  
   }
+
+  getDashboard():  Observable<any> {
+
+    return  this._httpClient.get<any>(`${this.urlLocal}encuesta/dashboard`).pipe(
+        tap((dashboard) => {
+            this._dashboard.next(dashboard);
+        })
+    );
+    }
+      
 }

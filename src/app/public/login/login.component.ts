@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'app/auth/aut.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalPasswordComponent } from 'app/public/modal-password/modal-password.component';
 declare var $: any;
 
 @Component({
@@ -15,7 +17,7 @@ export class LoginComponent implements OnInit {
     loginForm: FormGroup;
     type = ['','info','success','warning','danger'];
 
-  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router ) { }
+  constructor(private _formBuilder: FormBuilder, private _authService: AuthService, private _router: Router, private _matDialog: MatDialog ) { }
 
     ngOnInit() {
         this.loginForm = this._formBuilder.group({
@@ -40,6 +42,33 @@ export class LoginComponent implements OnInit {
             }
             this.loading = false;
         });
+    }
+
+    openModal(): void {
+
+        const modal = this._matDialog.open(ModalPasswordComponent);
+
+
+        modal.afterClosed().subscribe((res) => {
+            if (res) {
+
+                console.log(res);
+                return;
+
+                this._authService.restorePassword(res).then((res) => {
+
+                    if (!res.errors) {
+                        this.showNotification('success', 'Contraseña cambiada')
+                    } else {
+                        this.showNotification('danger', 'No se encontro el email')
+                    }
+
+                })
+            }
+        }) 
+
+
+
     }
 
 
