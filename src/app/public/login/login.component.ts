@@ -52,8 +52,6 @@ export class LoginComponent implements OnInit {
         modal.afterClosed().subscribe((res) => {
             if (res) {
 
-                console.log(res);
-                return;
 
                 this._authService.restorePassword(res).then((res) => {
 

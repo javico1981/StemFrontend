@@ -39,8 +39,6 @@
                         *ngIf="passwordField.type === 'text'"
                         >visibility_off</mat-icon>
                 </button>
-
-                <mat-error *ngIf="usuarioForm.get('password').hasError('required')">La contraseña es requerida</mat-error> 
                 <mat-error *ngIf="usuarioForm.get('password').hasError('minlength')">Mínimo 6 caracteres</mat-error> 
                 <mat-error *ngIf="usuarioForm.get('password').hasError('maxlength')">Máximo 100 caracteres</mat-error> 
             </mat-form-field>

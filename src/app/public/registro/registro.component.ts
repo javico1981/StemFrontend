@@ -21,8 +21,7 @@ export class RegistroComponent implements OnInit {
             nombre: [null, [Validators.minLength(6), Validators.maxLength(100), Validators.required]],
             email: [null, [Validators.email, Validators.required, Validators.minLength(6), Validators.maxLength(100)]],
             password: [null, [Validators.minLength(6), Validators.maxLength(100), Validators.required]],
-            
-            
+            tipo_usuario: [2]
         })
     }
 

@@ -26,6 +26,7 @@ export class UserProfileComponent implements OnInit {
       email: [this.userData.email, [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(100)]],
       password: [null, [Validators.minLength(6), Validators.maxLength(100)]],
       nombre: [this.userData.nombre, [Validators.required,Validators.minLength(6), Validators.maxLength(100)]],
+      tipo_usuario: [this.userData.tipo_usuario],
       updated_by: [this.userData.id]
     })
   }
