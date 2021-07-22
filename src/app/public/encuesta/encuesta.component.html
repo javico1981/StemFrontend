@@ -1,0 +1,165 @@
+<mat-toolbar color="primary">
+    <span>Encuesta</span>
+    <span class="example-spacer"></span>
+
+    <button *ngIf="isLogged" mat-raised-button color="warn" [routerLink]="'/app/dashboard'">
+      <mat-icon>dashboard</mat-icon>
+      Dashboard
+    </button>
+
+    <button *ngIf="!isLogged" mat-raised-button color="warn" [routerLink]="'/public/login'">
+        <mat-icon>person</mat-icon>
+        Login
+      </button>
+    
+  </mat-toolbar>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 text-center pt-2">
+                <h4>Ingresa la información necesaria</h4>
+                <h3>STEM</h3>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">{{preguntas.length}} preguntas</h4>
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="encuestaForm">
+                            <div class="col">
+                                <div class="mb-1">
+                                    <section>1. {{preguntas[0]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                    <mat-select [formControlName]="'pregunta_1'" required multiple>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta1" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    <mat-error>La pregunta es requerida</mat-error> 
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="mb-1">
+                                    <section>2. {{preguntas[1]}}</section> 
+                                    <mat-form-field appearance="fill">
+                
+                                    <mat-select [formControlName]="'pregunta_2'" multiple>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta2" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="mb-1">
+                                    <section>3. {{preguntas[2]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                    <mat-select [formControlName]="'pregunta_3'" multiple>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta2" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="mb-1">
+                                    <section>4. {{preguntas[3]}}</section>
+                                    <mat-radio-group color="primary" [formControlName]="'pregunta_4'">
+                                        <mat-radio-button value="Si" class="mr-1">Si</mat-radio-button>
+                                        <mat-radio-button value="No">No</mat-radio-button>
+                                      </mat-radio-group>
+                                </div>
+
+                                <div class="mb-1">
+                                    <section>5. {{preguntas[4]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                    <mat-select [formControlName]="'pregunta_5'" multiple>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta5" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+
+                                <div class="mb-1">
+                                    <section>6. {{preguntas[5]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                    <mat-select [formControlName]="'pregunta_6'" required>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta6" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    <mat-error>La pregunta es requerida</mat-error> 
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="mb-1">
+                                    <section>7. {{preguntas[6]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                    <mat-select [formControlName]="'pregunta_7'" required multiple>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta7" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    <mat-error>La pregunta es requerida</mat-error> 
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="mb-1"> 
+                                    <section>8. {{preguntas[7]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                          <input [formControlName]="'pregunta_8'" matInput placeholder="Tu correo" email>
+                                          <mat-error *ngIf="encuestaForm.get('pregunta_8').hasError('email')">Correo invalido</mat-error> 
+                                      </mat-form-field>
+                                </div>
+
+                                <div class="mb-1">
+                                    <section>9. {{preguntas[8]}}</section> 
+                                    <mat-form-field appearance="fill">
+                                    <mat-select [formControlName]="'pregunta_9'" required>
+                                        <mat-option *ngFor="let opcion of opcionesPregunta9" [value]="opcion">
+                                            {{opcion}}
+                                          </mat-option>
+                                    </mat-select>
+                                    <mat-error>La pregunta es requerida</mat-error> 
+                                    </mat-form-field>
+                                </div>
+
+                                
+                            </div>
+
+                            <div class="col buttons-container">
+
+                                    <button type="button" class="mr-auto" mat-icon-button color="primary" [disabled]="loading" (click)="resetForm()">
+                                        
+                                        <mat-icon>sync</mat-icon>
+                                        
+                                    </button>
+                              
+                                    <button type="button" class="ml-auto" mat-raised-button color="primary" [disabled]="encuestaForm.invalid || loading" (click)="onSubmitForm(encuestaForm.value)">
+                                        <span *ngIf="!loading">
+                                            Enviar
+                                        </span>
+                                        <mat-progress-spinner
+                                        *ngIf="loading"
+                                        class="mx-auto my-2"
+                                        strokeWidth="4"
+                                        [diameter]="24"
+                                        [mode]="'indeterminate'"></mat-progress-spinner>
+                                    </button>
+
+                            </div>
+                            
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+  

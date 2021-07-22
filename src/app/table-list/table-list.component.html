@@ -1,0 +1,81 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="row card-header card-header-danger header-custom">
+                      <div>
+                        <h4 class="card-title ">Respuestas</h4>
+                        <p class="card-category">Listado de respuestas en el formulario</p>
+                      </div>
+
+                      <div>
+                        <button mat-raised-button [routerLink]="'/public/encuesta'" color="primary">Crear</button>
+                      </div>
+                      
+                  </div>
+                  <div class="card-body">
+                      <div class="table-responsive">
+                          <table class="table">
+                              <thead class=" text-primary">
+                                    <th>
+                                        Nombre
+                                    </th>
+                                    <th>
+                                        Edad
+                                    </th>
+                                    <th>
+                                        Genero
+                                    </th>
+                                    <th>
+                                        Nivel educativo
+                                    </th>
+                                    <th>
+                                        Fecha contagio
+                                    </th>
+                                    <th>
+                                    </th>
+                              </thead>
+                              <tbody>
+                                  <tr *ngFor="let paciente of pacientes">
+                                      <td>
+                                          {{paciente.nombre}}
+                                      </td>
+                                      <td>
+                                        {{paciente.edad}}
+                                      </td>
+                                      <td>
+                                        {{paciente.genero}}
+                                      </td>
+                                      <td>
+                                        {{paciente.nivel_educativo}}
+                                      </td>
+                                      <td class="text-primary">
+                                        {{paciente.fecha_contagio | date:'dd/MM/yyyy'}}
+                                      </td>
+                                      <td>
+                                        <button [matMenuTriggerFor]="menu" mat-icon-button color='primary'>
+                                            <mat-icon>more_vert</mat-icon>
+                                        </button>
+                                        <mat-menu #menu="matMenu">
+                                            <button (click)="openModal('editar', paciente)" mat-menu-item>
+                                                <mat-icon>edit</mat-icon>
+                                                <span>Editar</span>
+                                              </button>
+
+                                              <button (click)="eliminarPaciente(paciente)" mat-menu-item>
+                                                <mat-icon>delete</mat-icon>
+                                                <span>Eliminar</span>
+                                              </button>
+                                          </mat-menu>
+                                    </td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

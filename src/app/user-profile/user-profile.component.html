@@ -1,0 +1,83 @@
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-8">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Editar datos</h4>
+                  </div>
+                  <div class="card-body">
+                      <form [formGroup]="userForm">
+                        <div class="col">
+                          <div class="">
+                              <mat-form-field appearance="outline" >
+                                <mat-label>Nombre</mat-label>
+                                    <input [formControlName]="'nombre'" matInput placeholder="Tu nombre" required>
+                                    <mat-error *ngIf="userForm.get('nombre').hasError('required')">El nombre es requerido</mat-error> 
+                                    <mat-error *ngIf="userForm.get('nombre').hasError('minlength')">Mínimo 6 caracteres</mat-error> 
+                                    <mat-error *ngIf="userForm.get('nombre').hasError('maxlength')">Máximo 100 caracteres</mat-error> 
+                                </mat-form-field>
+                            </div>
+                          <div class="">
+                            <mat-form-field appearance="outline" >
+                                <mat-label>Correo</mat-label>
+                                  <input [formControlName]="'email'" matInput placeholder="Tu correo" email required>
+                                  <mat-error *ngIf="userForm.get('email').hasError('required')">El correo es requerido</mat-error> 
+                                  <mat-error *ngIf="userForm.get('email').hasError('email')">Correo invalido</mat-error> 
+                                  <mat-error *ngIf="userForm.get('email').hasError('minlength') && !userForm.get('email').hasError('email')">Mínimo 6 caracteres</mat-error> 
+                                  <mat-error *ngIf="userForm.get('email').hasError('maxlength') && !userForm.get('email').hasError('email')">Máximo 100 caracteres</mat-error> 
+                              </mat-form-field>
+                          </div>
+                          <div class="">
+                              <mat-form-field  appearance="outline">
+                                <mat-label>Contraseña</mat-label>
+                                <input 
+                                  matInput 
+                                  type="password" 
+                                  placeholder="Contraseña"
+                                  [formControlName]="'password'"
+                                  #passwordField>
+                                  <button
+                                      mat-icon-button
+                                      type="button"
+                                      (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                                      matSuffix>
+                                      <mat-icon
+                                          *ngIf="passwordField.type === 'password'"
+                                      >visibility</mat-icon>
+                                      <mat-icon
+                                          *ngIf="passwordField.type === 'text'"
+                                          >visibility_off</mat-icon>
+                                  </button>
+
+                            
+                                  <mat-error *ngIf="userForm.get('password').hasError('minlength')">Mínimo 6 caracteres</mat-error> 
+                                  <mat-error *ngIf="userForm.get('password').hasError('maxlength')">Máximo 100 caracteres</mat-error> 
+                              </mat-form-field>
+                          </div>
+                      </div>
+
+                      
+                      <div class="row button-container">
+                         
+                        <button mat-raised-button color="primary" [disabled]="userForm.invalid || loading" (click)="onSubmitForm(userForm.value)">
+                            <span *ngIf="!loading">
+                                Actualizar
+                            </span>
+                            <mat-progress-spinner
+                            *ngIf="loading"
+                            strokeWidth="4"
+                            class="mx-auto my-2"
+                            [diameter]="24"
+                            [mode]="'indeterminate'"></mat-progress-spinner>
+                        </button>
+
+                
+                      </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="logo">
+    <a  [routerLink]="'/'" class="simple-text">
+        <div class="logo-img">
+            <img src="/assets/img/angular2-logo-red.png"/>
+        </div>
+        STEAM
+    </a>
+</div>
+<div class="sidebar-wrapper">
+  
+    <ul class="nav">
+        <li routerLinkActive="active" *ngFor="let menuItem of menuItems" class="{{menuItem.class}} nav-item">
+            <a class="nav-link" [routerLink]="[menuItem.path]">
+                <i class="material-icons">{{menuItem.icon}}</i>
+                <p>{{menuItem.title}}</p>
+            </a>
+        </li>
+    </ul>
+    
+    <div class="row mt-3">
+        <button class="ml-auto mr-4" *ngIf="isMobileMenu()" mat-raised-button (click)="logOut()" color="warn">
+            Salir
+        </button>
+    </div>
+    
+</div>
